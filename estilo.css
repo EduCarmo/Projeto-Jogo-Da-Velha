@@ -34,7 +34,7 @@ body {
 
 #tabuleiro {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    /* grid-template-columns: repeat(3, 1fr); */
     width: min-content;
     padding-top: 25px;
 }
@@ -74,4 +74,8 @@ body {
     display: flex;
     justify-content: center;  
     border-bottom: none;
+}
+
+#tamanho {
+    width: 60px;
 }
