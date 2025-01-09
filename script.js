@@ -148,21 +148,83 @@ class JogoDaVelha {
         let quemVenceu = this.vencedor ? ` Vencedor: ${this.vencedor}` : ''
         return `${matriz}\n ${quemVenceu}`
     }
+
+    status() {
+        if (this.vencedor === '-') {
+            return ' Empate!!!'
+        }else if (this.vencedor) {
+            return `${this.vencedor}  Venceu!!!`
+        }else {
+            return `É a vez do ${this.jogadorAtual.simbolo}`
+        }
+    }
+
 }
 
-const jogo = new JogoDaVelha(new JogadorHumano('X'), new JogadorAleatorio('O'))
-jogo.jogar(new Jogada(1, 1))
-jogo.jogar(new Jogada(1, 2))
-jogo.jogar(new Jogada(1, 3))
-// jogo.jogar(new Jogada(2, 1))
-// jogo.jogar(new Jogada(2, 2))
-// jogo.jogar(new Jogada(2, 3))
-// jogo.jogar(new Jogada(3, 2))
-// jogo.jogar(new Jogada(3, 1))
-// jogo.jogar(new Jogada(3, 3))
+class JogoDaVelhaDOM {
+    constructor(tabuleiro, informacoes) {
+        this.tabuleiro = tabuleiro
+        this.informacoes = informacoes
+    }
 
-// console.log(jogo.toString())
-// jogo.zerar()
-// jogo.jogar(new Jogada(3, 1))
-// jogo.jogar(new Jogada(3, 3))
-console.log(jogo.toString())
+    inicializar(jogo) {
+        this.jogo = jogo
+        this.#deixarTabuleiroJogavel()
+    }
+
+    #deixarTabuleiroJogavel() {
+        const posicoes = this.tabuleiro.getElementsByClassName('posicao')
+        for (let posicao of posicoes) {
+            posicao.addEventListener('click', (e) => {
+                if (this.jogo.vencedor) return
+
+                let posicaoSelecionada = e.target.attributes
+                let linha = +posicaoSelecionada.linha.value
+                let coluna = +posicaoSelecionada.coluna.value
+                // console.log(`Cliquem em ${linha}, ${coluna}`)
+                this.jogo.jogar(new Jogada(linha, coluna))
+                this.informacoes.innerText = this.jogo.status()
+                // console.log(this.jogo.toString())
+                this.#imprimirSimbolos()
+            })
+        }
+    }
+    #imprimirSimbolos() {
+        let { tabuleiro } = this.jogo
+        let qtdLinhas = tabuleiro.length
+        let qtdColunas = tabuleiro[0].length
+        let posicoes = this.tabuleiro.getElementsByClassName('posicao')
+
+        for (let linha = 0; linha < qtdLinhas; linha++) {
+            for (let coluna = 0; coluna < qtdColunas; coluna++) {
+                let indiceDaInterface = linha * qtdColunas + coluna
+                posicoes[indiceDaInterface].innerText = tabuleiro[linha][coluna]
+            }
+        }
+    }
+
+    zerar() {
+        this.jogo.zerar()
+        let posicoes = document.getElementsByClassName('posicao')
+        for (let posicao of posicoes) {
+            [...posicoes].forEach(posicao => posicao.innerText = '')
+            this.informacoes.innerText = this.jogo.status()
+        }
+    }
+}
+
+
+(function () {
+    const botaoIniciar = document.getElementById('iniciar')
+    const informacoes = document.getElementById('informacoes')
+    const tabuleiro = document.getElementById('tabuleiro')
+    const jogo = new JogoDaVelha(new JogadorHumano('X'), new JogadorHumano('O'))
+
+    const jogoDOM = new JogoDaVelhaDOM(tabuleiro, informacoes)
+    jogoDOM.inicializar(jogo)
+
+    botaoIniciar.addEventListener('click', () => {
+        jogoDOM.zerar()
+    })
+
+})()

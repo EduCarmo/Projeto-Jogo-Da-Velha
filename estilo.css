@@ -1,0 +1,77 @@
+:root {
+    --cor1: #302b63;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: var(--cor1);
+    color: white;
+}
+
+#informacoes {
+    min-height: 50px;
+    margin: 0 auto;
+}
+
+#iniciar {
+    font-size: 1.4rem;
+    font-weight: bold;
+    background-color: rgb(146, 157, 157);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+#iniciar:hover {
+    color: var(--cor1);
+}
+
+#tabuleiro {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: min-content;
+    padding-top: 25px;
+}
+
+.posicao {
+    width: 100px;
+    height: 100px;
+    font-size: 70px;
+    line-height: 100px;
+    align-items: center;
+    vertical-align: middle;
+    background-color: var(--cor1);
+    border: solid 5px white;
+    display: flex;
+    justify-content: center;
+}
+
+.posicao-cima {
+    display: flex;
+    justify-content: center;
+    border-top: none;
+}
+
+.posicao-esquerda {
+    display: flex;
+    justify-content: center;
+    border-left: none;
+}
+
+.posicao-direita {
+    display: flex;
+    justify-content: center;
+    border-right: none;
+}
+
+.posicao-baixo {  
+    display: flex;
+    justify-content: center;  
+    border-bottom: none;
+}
